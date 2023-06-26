@@ -1,0 +1,54 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: acme-postgres
+  labels:
+    provider: acme
+    dplt.platform.io/type: postgres
+spec:
+  compositeTypeRef:
+    apiVersion: dplt.platform.io/v1
+    kind: AcmePostgres
+  resources:
+    - base:
+        apiVersion: postgresql.k8s.enterprisedb.io/v1
+        kind: Cluster
+        spec:
+          bootstrap:
+            initdb:
+              encoding: LATIN1
+              database: default
+    patches:
+      - fromFieldPath: spec.parameters.clusterName
+        toFieldPath: metadata.name
+      - fromFieldPath: spec.parameters.databaseName
+        toFieldPath: spec.bootstrap.initdb.database
+        transforms:
+          - type: string
+            string:
+              fmt: "%s"
+              transform:
+                method: ToLower
+      - fromFieldPath: spec.parameters.encoding
+        toFieldPath: spec.bootstrap.initdb.encoding
+        transforms:
+          - type: string
+            string:
+              fmt: "%s"
+              transform:
+                method: ToLower
+    patchSets:
+      - name: small
+        patches:
+          - toFieldPath: spec.instances
+            value: 1
+          - toFieldPath: spec.storage.size
+            value: 5Gi
+          - toFieldPath: spec.resources.requests.cpu
+            value: 500m
+          - toFieldPath: spec.resources.requests.memory
+            value: 1Gi
+      - name: medium
+        patches: []
+      - name: large
+        patches: []

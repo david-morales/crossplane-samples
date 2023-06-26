@@ -1,0 +1,11 @@
+apiVersion: dplt.platform.io/v1
+kind: AcmePostgres
+metadata:
+  name: acme-postgres-claim-postgis
+spec:
+  parameters:
+    version: "15.2"
+    count: 5
+    dbName: "dpro1"
+    storageSizeMb: 3000
+    postgisEnabled: true

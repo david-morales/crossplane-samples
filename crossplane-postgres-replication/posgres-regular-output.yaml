@@ -1,0 +1,15 @@
+apiVersion: postgresql.k8s.enterprisedb.io/v1
+kind: Cluster
+metadata:
+  name: acme-postgres-claim
+  namespace: default
+  labels:
+    crossplane.io/composite: acme-postgres-claim
+spec: 
+  instances: 3
+  storage:
+    size: "500Mi"
+  imageName: "quay.io/enterprisedb/postgresql:15.3"
+  bootstrap:
+    initdb:
+      database: "dpro1"

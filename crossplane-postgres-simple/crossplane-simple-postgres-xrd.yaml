@@ -1,0 +1,42 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: acme-postgres-xrd
+  labels:
+    provider: acme
+    dplt.platform.io/type: postgres
+spec:
+  group: dplt.platform.io
+  names:
+    kind: AcmePostgres
+    plural: acmepostgres
+    singular: acmepostgres
+  claimNames:
+    kind: AcmePostgres
+    plural: acmepostgres
+    singular: acmepostgres
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  clusterName:
+                    type: string
+                    description: "The name of the PostgreSQL cluster"
+                  size:
+                    type: string
+                    description: "The t-shirt size of the cluster"
+                    enum:
+                      - "small"
+                      - "medium"
+                      - "large"
+                required:
+                - clusterName
+                - size

@@ -1,0 +1,52 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: acme-postgres-xrd
+  labels:
+    provider: acme
+    dplt.platform.io/type: postgres
+spec:
+  group: dplt.platform.io
+  names:
+    kind: AcmePostgres
+    plural: acmepostgres
+    singular: acmepostgres
+  claimNames:
+    kind: AcmePostgres
+    plural: acmepostgres
+    singular: acmepostgres
+  versions:
+  - name: v1
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              parameters:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: "The PostgreSQL version"
+                    default: "14.2"
+                  dbName:
+                    type: string
+                    description: "The database name used by the DPRO"
+                  count:
+                    type: integer
+                    description: "The number of instances in the PostgreSQL Cluster"
+                    default: 1
+                  storageSizeMb:
+                    type: integer
+                    description: "Storage size in MB"
+                  postgisEnabled:
+                    type: boolean
+                    description: "Indicate whether the PostGIS extension should be enabled"
+                    default: false
+                required:
+                - version
+                - dbName
+                - count
+                - storageSizeMb

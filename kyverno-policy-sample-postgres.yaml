@@ -1,0 +1,19 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: enforce-postgres-cluster-config
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: enforce-min-instances-storage
+    match:
+      resources:
+        kinds:
+        - postgresql.k8s.enterprisedb.io/v1/Cluster
+    validate:
+      message: "The Postgres cluster must have at least 3 instances and 10Gi storage."
+      pattern:
+        spec:
+          instances: ">=3"
+          storage:
+            size: ">=10Gi"

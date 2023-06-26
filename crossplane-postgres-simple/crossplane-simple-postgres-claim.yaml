@@ -1,0 +1,9 @@
+apiVersion: dplt.platform.io/v1
+kind: AcmePostgres
+metadata:
+  name: my-postgres-instance
+  namespace: my-application
+spec:
+  parameters:
+    clusterName: "my-cluster"
+    size: "small"

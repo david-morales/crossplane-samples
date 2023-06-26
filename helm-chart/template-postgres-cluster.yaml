@@ -1,0 +1,18 @@
+apiVersion: postgresql.k8s.enterprisedb.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  description: {{ .Values.description }}
+  imageName: {{ .Values.imageName }}
+  instances: {{ .Values.instances }}
+  startDelay: {{ .Values.startDelay }}
+  stopDelay: {{ .Values.stopDelay }}
+  primaryUpdateStrategy: {{ .Values.primaryUpdateStrategy }}
+  resources: {{ toYaml .Values.resources | nindent 4 }}
+  postgresql:
+    parameters: {{ toYaml .Values.postgresql.parameters | nindent 6 }}
+  bootstrap:
+    initdb: {{ toYaml .Values.bootstrap.initdb | nindent 6 }}
+  storage: {{ toYaml .Values.storage | nindent 4 }}

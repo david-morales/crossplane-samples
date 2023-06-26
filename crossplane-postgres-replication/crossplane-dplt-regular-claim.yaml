@@ -1,0 +1,10 @@
+apiVersion: dplt.platform.io/v1
+kind: AcmePostgres
+metadata:
+  name: acme-postgres-claim
+spec:
+  parameters:
+    version: "15.3"
+    count: 3
+    dbName: "dpro1"
+    storageSizeMb: 500
